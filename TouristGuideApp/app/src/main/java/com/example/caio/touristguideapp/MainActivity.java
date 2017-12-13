@@ -1,43 +1,94 @@
 package com.example.caio.touristguideapp;
 
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.caio.touristguideapp.Model.Place;
+import com.example.caio.touristguideapp.View.PlacesListActivity;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private List<String> placesList = null;
-    private ArrayAdapter<String> arrAdapter = null;
-    private Button btnAddPlaces = null;
-    private ListView lvPlaces = null;
+    private ArrayList<Place> placesList = null;
+    private Button btnAddPlaces = null, btnShow =null;
+    private EditText etPlace = null, etAddress = null;
+    private Place place = null;
+    private ArrayAdapter<CharSequence> countriesAdapter = null;
+    private Spinner spCountries = null;
+    private String selectedCountry = null;
+    private ArrayList<String> objInfos = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        lvPlaces = (ListView) findViewById(R.id.lvPlaces);
-        placesList = new ArrayList<String>();
+        etPlace = (EditText) findViewById(R.id.etPlace);
+        etAddress = (EditText) findViewById(R.id.etAddress);
+        countriesAdapter = ArrayAdapter.createFromResource(this, R.array.countries, android.R.layout.simple_spinner_item);
+        spCountries = (Spinner) findViewById(R.id.spCountries);
+        placesList = new ArrayList<Place>();
         btnAddPlaces = (Button) findViewById(R.id.btnAdd);
-        arrAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, placesList);
-        lvPlaces.setAdapter(arrAdapter);
+        btnShow = (Button) findViewById(R.id.btnShow);
+        objInfos = new ArrayList<String>();
+
+        countriesAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        spCountries.setAdapter(countriesAdapter);
+
+        spCountries.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                selectedCountry =  adapterView.getItemAtPosition(i).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         btnAddPlaces.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                place = new Place(etPlace.getText().toString(), etAddress.getText().toString(), selectedCountry);
+                placesList.add(place);
+            }
+        });
 
-                placesList.add("Museu Nacional");
-                arrAdapter.notifyDataSetChanged();
+        btnShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, PlacesListActivity.class);
+                Bundle b = new Bundle();
 
+                for(int f = 0; f < placesList.size(); f++){
+
+                    objInfos.add(placesList.get(f).getName());
+                    objInfos.add(placesList.get(f).getAddress());
+                    objInfos.add(placesList.get(f).getCountry());
+
+                    b.putStringArrayList( String.valueOf(f), objInfos );
+                    objInfos.clear();
+
+                }
+
+                i.putExtras(b);
+
+                startActivity(i);
             }
         });
 

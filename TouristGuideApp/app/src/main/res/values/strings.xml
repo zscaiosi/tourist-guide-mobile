@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">TouristGuideApp</string>
+    <string-array name="countries">
+        <item>BRASIL</item>
+        <item>URUGUAY</item>
+        <item>USA</item>
+        <item>ARGENTINA</item>
+        <item>PARAGUAY</item>
+        <item>MEXICO</item>
+        <item>COLOMBIA</item>
+        <item>CHILE</item>
+    </string-array>
 </resources>
