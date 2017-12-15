@@ -10,13 +10,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+
+        </activity>
+        <activity android:name=".View.PlacesListActivity" />
+        <activity android:name=".View.PlaceActivity" />
+        <activity android:name=".View.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".View.PlacesListActivity"></activity>
     </application>
 
 </manifest>

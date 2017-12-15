@@ -1,10 +1,12 @@
 package com.example.caio.touristguideapp.Model;
 
+import java.io.Serializable;
+
 /**
  * Created by caio on 12/12/17.
  */
 
-public class Place {
+public class Place implements Serializable{
     private String name, address, country;
 
     public Place(String... params){

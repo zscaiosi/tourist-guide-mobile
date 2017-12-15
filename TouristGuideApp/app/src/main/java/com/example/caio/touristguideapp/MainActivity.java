@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<CharSequence> countriesAdapter = null;
     private Spinner spCountries = null;
     private String selectedCountry = null;
-    private ArrayList<String> objInfos = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         placesList = new ArrayList<Place>();
         btnAddPlaces = (Button) findViewById(R.id.btnAdd);
         btnShow = (Button) findViewById(R.id.btnShow);
-        objInfos = new ArrayList<String>();
 
         countriesAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
         spCountries.setAdapter(countriesAdapter);
@@ -73,20 +71,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, PlacesListActivity.class);
-                Bundle b = new Bundle();
 
                 for(int f = 0; f < placesList.size(); f++){
-
-                    objInfos.add(placesList.get(f).getName());
-                    objInfos.add(placesList.get(f).getAddress());
-                    objInfos.add(placesList.get(f).getCountry());
-
-                    b.putStringArrayList( String.valueOf(f), objInfos );
-                    objInfos.clear();
-
+                    i.putExtra("seriazable_place"+f, placesList.get(f));
                 }
-
-                i.putExtras(b);
 
                 startActivity(i);
             }
